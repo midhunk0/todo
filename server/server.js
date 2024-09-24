@@ -8,12 +8,10 @@ const dotenv=require("dotenv").config();
 const port=5000;
 const app=express();
 
-app.use(cors({
-    origin: process.env.FRONTEND_API,
-    credentials: true
-}));
+app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 mongoose.connect(process.env.MONGO_URL)
     .then(()=>console.log("database connected"))
