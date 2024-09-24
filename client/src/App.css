@@ -1,0 +1,423 @@
+/* login-register pages */
+.formPage{
+    display: flex;
+    padding: 20px;
+    height: calc(100vh - 40px);
+}
+
+.videoDiv{
+    width: 70vw;
+    position: relative;
+    overflow: hidden;
+    background: #00D7FF;
+    border-radius: 25px;
+}
+
+.videoDiv h1{
+    padding: 20px;
+    color: white;
+}
+
+.videoDiv video{ 
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.formDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 400px;
+    padding: 20px;
+    gap: 20px;
+}
+
+.formHeader{
+    width: 90%;
+    text-align: left;
+}
+
+.formHeader h2{
+    font-size: 32px;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    gap: 20px;
+}
+
+.formItem{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.formItem label{
+    font-weight: bold;
+}
+
+.formItem input {
+    padding: 15px;
+    border-radius: 25px;
+    outline: none;
+    border: 1px solid black;
+}
+
+.password{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.password input{
+    width: 100%;
+}
+
+.password img{
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    padding: 12px;
+    border-radius: 25px;
+    border: 1px solid black;
+}
+
+.form button{
+    padding: 15px;
+    background: #00D7FF;
+    border-radius: 25px;
+    border: 1px solid black;     
+    outline: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.formFooter{
+    width: 90%;
+}
+
+.formFooter a{
+    color: black;
+}
+
+.formFooter a:hover{
+    color: #00D7FF;
+}
+
+.formItem input:hover, 
+.password img:hover, 
+.form button:hover{
+    border-color: black; 
+    box-shadow: 0 0 10px black; 
+}
+
+@media (max-width: 920px){
+    .videoDiv{
+        position: absolute;
+        width: fit-content;
+        height: fit-content;
+        background: white;
+    }
+
+    .videoDiv video{
+        display: none;
+    }
+
+    .videoDiv h1{
+        color: black;
+    }
+
+    .formDiv{
+        width: 100%;
+        min-width: 0;
+    }
+
+    .formHeader, .form, .formFooter{
+        width: 400px;
+    }
+}
+
+@media (max-width: 480px){
+    .formPage{
+        padding: 0;
+        height: 100vh;
+    }
+
+    .formDiv{
+        width: 100%;
+        min-width: 0;
+    }
+
+    .formHeader, .form, .formFooter{
+        width: 100%;
+    }
+}
+
+/* topbar */
+.topbar{
+    padding: 15px;
+    background: #00D7FF;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo a{
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+    width: fit-content;
+    position: relative;
+    padding-bottom: 4px;
+}
+
+.logo a::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: black;
+    transition: width 0.4s ease;
+}
+
+.logo a:hover::after{
+    width: 100%;
+}
+
+.moreOptions{
+    display: flex;
+    align-items: center;
+}
+
+.moreOptions img{
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    padding: 11px;
+    border: 1px solid black;
+    border-radius: 25px;
+}
+
+.moreOptions img:hover {
+    z-index: 1;
+    border-color: black; 
+    box-shadow: 0 0 10px black; 
+}
+
+.options{
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    background: #00D7FF;
+    position: absolute;
+    top: 8%;
+    right: 0%;
+    gap: 20px;
+}
+
+.options a{
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+    font-size: large;
+    width: fit-content;
+    position: relative;
+    padding-bottom: 4px;
+}
+
+.options a::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: black;
+    transition: width 0.4s ease;
+}
+
+.options a:hover::after{
+    width: 100%;
+}
+
+/* todolist */
+.todo{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    align-items: center;
+    gap: 20px;
+}
+
+.addTodo{
+    display: flex;
+    gap: 10px;
+    width: 50%;
+}
+
+.addTodo input{
+    padding: 15px;
+    border: 1px solid black;
+    outline: none;
+    border-radius: 25px;
+    width: 100%;
+}
+
+.addTodo img{
+    width: 24px;
+    height: 24px;
+    padding: 11px;
+    border-radius: 25px;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.todoItem{
+    display: flex;
+    gap: 10px;
+    width: 50%;
+}
+
+.todoItemContent{
+    width: 100%;
+}
+
+.updateForm{
+    display: flex;
+}
+
+.updateForm input{
+    padding: 15px;
+    border-radius: 25px;
+    border: 1px solid black;
+    outline: none;
+    width: 100%;
+}
+
+.contentDiv{
+    display: flex;
+    gap: 10px;
+}
+
+.contentDiv p{
+    border: 1px solid black;
+    border-radius: 25px;
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.contentDiv img{
+    height: 24px;
+    width: 24px;
+    padding: 11px;
+    cursor: pointer;
+    border: 1px solid black;
+    border-radius: 25px;
+}
+
+.todoItemButtons{
+    display: flex;
+    gap: 10px;
+}
+
+.todoItemButtons img{
+    width: 24px;
+    height: 24px;
+    padding: 11px;
+    border: 1px solid black;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.addTodo input:hover, 
+.addTodo img:hover, 
+.updateForm input:hover, 
+.contentDiv p:hover, 
+.contentDiv img:hover, 
+.todoItemButtons img:hover{
+    border-color: black; 
+    box-shadow: 0 0 10px black; 
+} 
+
+@media(max-width: 1080px){
+    .todoItem, .addTodo{
+        width: 80%;
+    }
+}
+
+@media (max-width: 720px){
+    .todo{
+        padding: 15px;
+    }
+
+    .todoItem, .addTodo{
+        width: 100%;
+    }
+}
+
+/* trashlist */
+.trashList{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+    align-items: center;
+}
+
+.trashItem{
+    min-width: 50%;
+    display: flex;
+    gap: 10px;
+}
+
+.trashItem p{
+    display: flex;
+    padding: 10px;
+    border: 1px solid black;
+    width: 100%;
+    border-radius: 25px;
+}
+
+.trashButtons{
+    display: flex;
+    gap: 10px;
+}
+
+.trashButtons img{
+    width: 24px;
+    height: 24px;
+    padding: 11px;
+    border: 1px solid black;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.trashItem p:hover,
+.trashButtons img:hover{
+    border-color: black; 
+    box-shadow: 0 0 10px black; 
+}
+
+@media(max-width: 1080px){
+    .trashItem{
+        width: 80%;
+    }
+}
+
+@media (max-width: 720px){
+    .trashList{
+        padding: 15px;
+    }
+
+    .trashItem{
+        width: 100%;
+    }
+}
