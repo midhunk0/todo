@@ -28,7 +28,7 @@ const registerUser=async(req, res)=>{
         });
         await user.save();
         const token=jwt.sign({ userId: user._id, username: user.username }, jwt_secret, { expiresIn: jwt_expires_in });
-        res.cookie("jwt", token, { httpOnly: true, secure: true, sameSite: "Strict", maxAge: 3600000 });
+        res.cookie("jwt", token, { httpOnly: true, secure: true, sameSite: "None", maxAge: 3600000 });
         res.status(200).json({ userId: user._id, message: "User created successfully" });
     }
     catch(err){

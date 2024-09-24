@@ -14,6 +14,7 @@ app.use(cors({
 }));
 app.use(cookieParser());
 app.use(express.json());
+app.options('*', cors(corsOptions)); 
 
 mongoose.connect(process.env.MONGO_URL)
     .then(()=>console.log("database connected"))
