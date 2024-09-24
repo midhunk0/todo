@@ -52,7 +52,7 @@ const loginUser=async(req, res)=>{
             return res.status(400).json({ message: "Incorrect password" });
         }
         const token=jwt.sign({ userId: userExist._id, username: userExist.username }, jwt_secret, { expiresIn: jwt_expires_in });
-        res.cookie("jwt", token, { httpOnly: true, secure: true, sameSite: "Strict", maxAge: 3600000 });
+        res.cookie("jwt", token, { httpOnly: true, secure: true, sameSite: "None", maxAge: 3600000 });
         res.status(200).json({ userId: userExist._id, message: "Login successfull" });
     }
     catch(err){
