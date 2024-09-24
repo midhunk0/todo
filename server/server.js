@@ -14,7 +14,10 @@ app.use(cors({
 }));
 app.use(cookieParser());
 app.use(express.json());
-app.options('*', cors(corsOptions)); 
+app.options('*', cors({
+    origin: process.env.FRONTEND_API,
+    credentials: true
+})); 
 
 mongoose.connect(process.env.MONGO_URL)
     .then(()=>console.log("database connected"))
