@@ -8,7 +8,13 @@ const dotenv=require("dotenv").config();
 const port=5000;
 const app=express();
 
-app.use(cors());
+app.use(
+    cors({
+    origin: process.env.FRONT_END_API,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+}))
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
