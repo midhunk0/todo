@@ -5,7 +5,7 @@ const cors=require("cors");
 
 router.use(
     cors({
-    origin: process.env.FRONTEND_API,
+    origin: process.env.FRONT_END_API,
     credentials: true
 }))
 
