@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -63,7 +64,7 @@ export function Register(){
                         <label>Password</label>
                         <div className="password">
                             <input type={visible ? "text" : "password"} placeholder="Enter your password" required onChange={(e)=>setUserData({...userData, password: e.target.value})}/>
-                            <img src={visible ? "visibility-on.png" : "visibility-off.png"} onClick={toggleVisibility} alt={visible ? "visibility-on" : "visibility-off"}/>
+                            <img src={visible ? "visibility-on.png" : "visibility-off.png"} onClick={toggleVisibility} alt={visible ? "visibility-on" : "visibility-off"} className={visible ? "visible" : ""}/>
                         </div>
                     </div>
                     <button type="submit">Register</button>

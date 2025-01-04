@@ -64,7 +64,7 @@
     padding: 15px;
     border-radius: 25px;
     outline: none;
-    border: 1px solid black;
+    border: 2px solid black;
 }
 
 .password{
@@ -83,18 +83,44 @@
     cursor: pointer;
     padding: 12px;
     border-radius: 25px;
-    border: 1px solid black;
+    border: 2px solid black;
 }
 
-.form button{
+.password img.visible{
+    background: #00D7FF;
+}
+
+.form button {
     padding: 15px;
     background: #00D7FF;
     border-radius: 25px;
-    border: 1px solid black;     
+    border: 2px solid black;
     outline: none;
     cursor: pointer;
+    color: white;
     font-weight: bold;
     font-size: 16px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.form button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: #00cc6a;
+    color: black;
+    transition: left 0.4s;
+    z-index: -1;
+    border-radius: 25px;
+}
+
+.form button:hover::before {
+    left: 0;
 }
 
 .formFooter{
@@ -103,17 +129,11 @@
 
 .formFooter a{
     color: black;
+    text-decoration: none;
 }
 
 .formFooter a:hover{
     color: #00D7FF;
-}
-
-.formItem input:hover, 
-.password img:hover, 
-.form button:hover{
-    border-color: black; 
-    box-shadow: 0 0 10px black; 
 }
 
 @media (max-width: 920px){
@@ -169,7 +189,7 @@
 
 .logo a{
     text-decoration: none;
-    color: black;
+    color: white;
     cursor: pointer;
     width: fit-content;
     position: relative;
@@ -201,14 +221,7 @@
     height: 24px;
     cursor: pointer;
     padding: 11px;
-    border: 1px solid black;
     border-radius: 25px;
-}
-
-.moreOptions img:hover {
-    z-index: 1;
-    border-color: black; 
-    box-shadow: 0 0 10px black; 
 }
 
 .options{
@@ -224,7 +237,7 @@
 
 .options a{
     text-decoration: none;
-    color: black;
+    color: white;
     cursor: pointer;
     font-size: large;
     width: fit-content;
@@ -264,18 +277,48 @@
 
 .addTodo input{
     padding: 15px;
-    border: 1px solid black;
+    border: 2px solid black;
     outline: none;
     border-radius: 25px;
     width: 100%;
 }
 
-.addTodo img{
+.addButton{
+    background: none;
+    border: 2px solid black;
+    border-radius: 25px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.addButton::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: #00cc6a;
+    color: black;
+    transition: left 0.4s;
+    z-index: -1;
+    border-radius: 25px;
+}
+
+.addButton:hover::before {
+    left: 0;
+}
+
+.addButton img{
     width: 24px;
     height: 24px;
     padding: 11px;
+    border: none;
+    outline: none;
     border-radius: 25px;
-    border: 1px solid black;
     cursor: pointer;
 }
 
@@ -296,20 +339,20 @@
 .updateForm input{
     padding: 15px;
     border-radius: 25px;
-    border: 1px solid black;
+    border: 2px solid black;
     outline: none;
     width: 100%;
 }
 
 .contentDiv{
     display: flex;
-    gap: 10px;
+    border: 2px solid black;
+    border-radius: 25px;
 }
 
 .contentDiv p{
-    border: 1px solid black;
     border-radius: 25px;
-    padding: 10px;
+    padding: 10px 0;
     width: 100%;
     cursor: pointer;
 }
@@ -319,7 +362,6 @@
     width: 24px;
     padding: 11px;
     cursor: pointer;
-    border: 1px solid black;
     border-radius: 25px;
 }
 
@@ -328,23 +370,47 @@
     gap: 10px;
 }
 
+.todoItemButtons button{
+    background: none;
+    border: 2px solid black;
+    border-radius: 25px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.todoItemButtons button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: #00cc6a;
+    color: black;
+    transition: left 0.4s;
+    z-index: -1;
+    border-radius: 25px;
+}
+
+.todoItemButtons button:last-child::before{
+    background: #ff0000;
+}
+
+.todoItemButtons button:hover::before {
+    left: 0;
+}
+
 .todoItemButtons img{
     width: 24px;
     height: 24px;
     padding: 11px;
-    border: 1px solid black;
+    border: none;
+    outline: none;
     border-radius: 25px;
     cursor: pointer;
-}
-
-.addTodo input:hover, 
-.addTodo img:hover, 
-.updateForm input:hover, 
-.contentDiv p:hover, 
-.contentDiv img:hover, 
-.todoItemButtons img:hover{
-    border-color: black; 
-    box-shadow: 0 0 10px black; 
 } 
 
 @media(max-width: 1080px){
@@ -381,7 +447,7 @@
 .trashItem p{
     display: flex;
     padding: 10px;
-    border: 1px solid black;
+    border: 2px solid black;
     width: 100%;
     border-radius: 25px;
 }
@@ -395,15 +461,9 @@
     width: 24px;
     height: 24px;
     padding: 11px;
-    border: 1px solid black;
+    border: 2px solid black;
     border-radius: 25px;
     cursor: pointer;
-}
-
-.trashItem p:hover,
-.trashButtons img:hover{
-    border-color: black; 
-    box-shadow: 0 0 10px black; 
 }
 
 @media(max-width: 1080px){

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useEffect, useId, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Topbar } from "../global/Topbar";
 import { toast } from "react-toastify";
 
@@ -126,10 +126,9 @@ export function Todo(){
             <div className="todo">
                 <form className="addTodo" onSubmit={addTodo}>
                     <input type="text" placeholder="type something..." value={todoItem} onChange={(e)=>setTodoItem(e.target.value)}/>
-                    {/* <div className="addButton"> */}
-                        {/* <p>Add</p> */}
-                        <img src="add.png" onClick={addTodo}/>
-                    {/* </div> */}
+                    <button className="addButton" type="button" onClick={addTodo}>
+                        <img src="add.png" alt=""/>
+                    </button>
                 </form>
                 {/* <div className="todoList"> */}
                     {todos.map((todo, index)=>(
@@ -141,18 +140,24 @@ export function Todo(){
                                     </form>
                                 ):(
                                     <div className="contentDiv">
-                                        <img src={todo.completed ? "completed.png" : "incompleted.png"} alt={todo.completed ? "completed" : "incompleted"} onClick={()=>toggleComplete(todo._id)}/>
+                                        <img src={todo.completed ? "checked.png" : "nonchecked.png"} alt={todo.completed ? "completed" : "incompleted"} onClick={()=>toggleComplete(todo._id)}/>
                                         <p htmlFor={todo.item} onClick={()=>toggleComplete(todo._id)}>{todo.item}</p>
                                     </div>
                                 )}
                             </div>
                             <div className="todoItemButtons">
                                 {edited===todo._id ? (
-                                    <img src="save.png" alt="save" onClick={(e)=>editTodo(todo._id)}/>
+                                    <button>
+                                        <img src="save.png" alt="save" onClick={(e)=>editTodo(todo._id)}/>
+                                    </button>
                                 ):(
-                                    <img src="edit.png" alt="edit" onClick={()=>{setEdited(todo._id);setUpdateTodo(todo.item)}}/>
+                                    <button>
+                                        <img src="edit.png" alt="edit" onClick={()=>{setEdited(todo._id); setUpdateTodo(todo.item)}}/>
+                                    </button>
                                 )}
-                                <img src="delete.png" alt="delete" onClick={()=>deleteTodo(todo._id)}/>
+                                <button>
+                                    <img src="delete.png" alt="delete" onClick={()=>deleteTodo(todo._id)}/>
+                                </button>
                             </div>
                         </div>
                     ))}
