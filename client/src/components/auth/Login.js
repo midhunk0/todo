@@ -47,9 +47,7 @@ export function Login(){
                 <video src="background.mp4" autoPlay muted loop></video>
             </div>
             <div className="formDiv">
-                <div className="formHeader">
-                    <h2>Login to your account</h2>
-                </div>
+                <h2>Login to your account</h2>
                 <form className="form" onSubmit={loginUser}>
                     <div className="formItem">
                         <label>Username/Email</label>

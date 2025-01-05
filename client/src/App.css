@@ -7,7 +7,7 @@
 
 .videoDiv{
     width: 70vw;
-    position: relative;
+    /* position: relative; */
     overflow: hidden;
     background: #00D7FF;
     border-radius: 25px;
@@ -34,12 +34,9 @@
     gap: 20px;
 }
 
-.formHeader{
+.formDiv h2{
     width: 90%;
     text-align: left;
-}
-
-.formHeader h2{
     font-size: 32px;
 }
 
@@ -87,15 +84,16 @@
 }
 
 .password img.visible{
-    background: #00D7FF;
+    background: white;
+    border: 2px solid white;
+    filter: invert(1);
 }
 
-.form button {
+.form button{
     padding: 15px;
     background: #00D7FF;
     border-radius: 25px;
     border: 2px solid black;
-    outline: none;
     cursor: pointer;
     color: white;
     font-weight: bold;
@@ -114,7 +112,7 @@
     height: 100%;
     background: #00cc6a;
     color: black;
-    transition: left 0.4s;
+    transition: left 0.2s;
     z-index: -1;
     border-radius: 25px;
 }
@@ -204,24 +202,54 @@
     width: 0;
     height: 2px;
     background: black;
-    transition: width 0.4s ease;
+    transition: width 0.2s ease;
 }
 
 .logo a:hover::after{
     width: 100%;
 }
 
-.moreOptions{
+.moreOptions button{
+    background: none;
+    border: 2px solid white;
+    border-radius: 25px;
+    position: relative;
+    overflow: hidden;
     display: flex;
     align-items: center;
+    justify-content: center;
+    z-index: 1;
 }
 
-.moreOptions img{
+.moreOptions button::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: white;
+    transition: left 0.2s;
+    z-index: -1;
+    border-radius: 25px;
+}
+
+.moreOptions button:hover::before{
+    left: 0;
+}
+
+.moreOptions button img{
     width: 24px;
     height: 24px;
-    cursor: pointer;
     padding: 11px;
+    border: none;
+    outline: none;
     border-radius: 25px;
+    cursor: pointer;
+}
+
+.moreOptions button img:hover{
+    filter: invert(1);
 }
 
 .options{
@@ -230,9 +258,10 @@
     padding: 15px;
     background: #00D7FF;
     position: absolute;
-    top: 8%;
+    top: 9%;
     right: 0%;
     gap: 20px;
+    z-index: 2;
 }
 
 .options a{
@@ -253,7 +282,7 @@
     width: 0;
     height: 2px;
     background: black;
-    transition: width 0.4s ease;
+    transition: width 0.2s ease;
 }
 
 .options a:hover::after{
@@ -280,7 +309,7 @@
     border: 2px solid black;
     outline: none;
     border-radius: 25px;
-    width: 100%;
+    width: calc(100% - 86px);  
 }
 
 .addButton{
@@ -294,21 +323,21 @@
     justify-content: center;
 }
 
-.addButton::before {
+.addButton::before{
     content: "";
     position: absolute;
     top: 0;
     left: -100%;
     width: 100%;
     height: 100%;
-    background: #00cc6a;
+    background: #00D7FF;
     color: black;
-    transition: left 0.4s;
+    transition: left 0.2s;
     z-index: -1;
     border-radius: 25px;
 }
 
-.addButton:hover::before {
+.addButton:hover::before{
     left: 0;
 }
 
@@ -357,6 +386,17 @@
     cursor: pointer;
 }
 
+.contentDiv button{
+    background: none;
+    border: none;
+    border-radius: 25px;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .contentDiv img{
     height: 24px;
     width: 24px;
@@ -390,9 +430,13 @@
     height: 100%;
     background: #00cc6a;
     color: black;
-    transition: left 0.4s;
+    transition: left 0.2s;
     z-index: -1;
     border-radius: 25px;
+}
+
+.todoItemButtons .saveButton::before{
+    background: #00D7FF;
 }
 
 .todoItemButtons button:last-child::before{
@@ -452,18 +496,53 @@
     border-radius: 25px;
 }
 
-.trashButtons{
+
+.trashButtons button{
+    background: none;
+    border: 2px solid black;
+    border-radius: 25px;
+    position: relative;
+    overflow: hidden;
     display: flex;
-    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.trashButtons button::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: #00D7FF;
+    color: black;
+    transition: left 0.2s;
+    z-index: -1;
+    border-radius: 25px;
+}
+
+.trashButtons button:hover::before{
+    left: 0;
 }
 
 .trashButtons img{
     width: 24px;
     height: 24px;
     padding: 11px;
-    border: 2px solid black;
+    border: none;
+    outline: none;
     border-radius: 25px;
     cursor: pointer;
+}
+
+.trashButtons{
+    display: flex;
+    gap: 10px;
+}
+
+.trashButtons button:last-child::before{
+    background: #ff0000;
 }
 
 @media(max-width: 1080px){

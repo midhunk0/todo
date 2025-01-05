@@ -20,7 +20,10 @@ function App(){
                 <Route path="/trash" element={<Trash/>}/>
             </Routes>
             <ToastContainer 
-				toastStyle={{background: "#00D7FF"}}
+				toastStyle={{
+                    background: "#00D7FF",
+                    borderRadius: "25px",
+                }}
                 position="bottom-right" 
                 autoClose={2000} 
                 hideProgressBar={true} 
@@ -31,6 +34,7 @@ function App(){
                 draggable={true} 
                 theme="colored"
                 pauseOnHover={true}
+                closeButton={false}
             />
         </Router>    
     );

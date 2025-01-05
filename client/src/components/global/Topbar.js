@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 // @ts-nocheck
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -65,7 +66,9 @@ export function Topbar(){
                 <h2><a href="/todo">Todo./</a></h2>
             </div>
             <div className="moreOptions">
-                <img src={show ? "more.png" : "close.png"} onClick={toggleShow} alt={show ? "more" : "close"}/>
+                <button onClick={toggleShow}>
+                    <img src={show ? "more.png" : "close.png"} alt={show ? "more" : "close"}/>
+                </button>
                 {show ? (
                     <></>
                 ) : (

@@ -48,9 +48,7 @@ export function Register(){
                 <video src="background.mp4" autoPlay muted loop></video>
             </div>
             <div className="formDiv">
-                <div className="formHeader">
-                    <h2>Create a new account</h2>
-                </div>
+                <h2>Create a new account</h2>
                 <form className="form" onSubmit={registerUser}>
                     <div className="formItem">
                         <label>Username</label>

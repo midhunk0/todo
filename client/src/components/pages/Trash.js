@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // @ts-nocheck
 import React, { useEffect, useState } from "react";
 import { Topbar } from "../global/Topbar";
@@ -13,7 +14,6 @@ export function Trash(){
             const result=await response.json();
             if(response.ok){
                 setTrash(result.trash);
-                // toast.success(result.message);
             }
             else{
                 toast.error(result.message);
@@ -76,12 +76,14 @@ export function Trash(){
             <div className="trashList">
                 {trash.map((trashItem, index)=>(
                     <div key={index} className="trashItem">
-                        {/* <div className="trashItemContent"> */}
-                            <p>{trashItem.item}</p>
-                        {/* </div> */}
+                        <p>{trashItem.item}</p>
                         <div className="trashButtons">
-                            <img src="restore.png" alt="restore" onClick={()=>restoreTodo(trashItem._id)}/>
-                            <img src="delete-forever.png" alt="delete-forever" onClick={()=>deleteTrashItem(trashItem._id)}/>
+                            <button onClick={()=>restoreTodo(trashItem._id)}>
+                                <img src="restore.png" alt="restore"/>
+                            </button>
+                            <button onClick={()=>deleteTrashItem(trashItem._id)}>
+                                <img src="delete-forever.png" alt="delete-forever"/>
+                            </button>
                         </div>
                     </div>
                 ))}
