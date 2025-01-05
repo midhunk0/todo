@@ -1,6 +1,10 @@
 # Todo Application
 
 This is a MERN stack-based Todo application that includes user authentication, task management, and trash management features.
+![image](https://github.com/user-attachments/assets/00002b4f-a8ed-4215-a674-92afc2ff9f9a)
+![image](https://github.com/user-attachments/assets/7f5e0320-6bce-4efa-b87a-cebc4fd43342)
+
+
 
 ## Features
 - **User Authentication**: Users can log in and register.
