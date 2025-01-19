@@ -6,7 +6,10 @@ import { toast } from "react-toastify";
 
 export function Trash(){
     const [trash, setTrash]=useState([]);
-    const apiUrl=process.env.REACT_APP_BACKEND_URL;
+    const environment=process.env.NODE_ENV;
+    const apiUrl=environment==='development'
+        ? process.env.REACT_APP_DEV_URL
+        : process.env.REACT_APP_PROD_URL;
 
     async function fetchTrash(){
         try{

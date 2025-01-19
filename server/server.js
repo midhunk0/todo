@@ -7,10 +7,14 @@ const dotenv=require("dotenv").config();
 
 const port=5000;
 const app=express();
+const environment=process.env.NODE_ENV;
+const apiUrl=environment==='development'
+    ? process.env.FRONT_END_DEV_API
+    : process.env.FRONT_END_PROD_API;
 
 app.use(
     cors({
-    origin: process.env.FRONT_END_API,
+    origin: apiUrl,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],

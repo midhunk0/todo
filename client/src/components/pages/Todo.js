@@ -9,7 +9,10 @@ export function Todo(){
     const [todos, setTodos]=useState([]);
     const [edited, setEdited]=useState(null);
     const [updateTodo, setUpdateTodo]=useState("");
-    const apiUrl=process.env.REACT_APP_BACKEND_URL;
+    const environment=process.env.NODE_ENV;
+    const apiUrl=environment==='development'
+        ? process.env.REACT_APP_DEV_URL
+        : process.env.REACT_APP_PROD_URL;
 
     async function addTodo(e){
         e.preventDefault();

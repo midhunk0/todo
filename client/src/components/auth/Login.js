@@ -11,7 +11,10 @@ export function Login(){
     const [visible, setVisible]=useState(false);
 
     const navigate=useNavigate();
-    const apiUrl=process.env.REACT_APP_BACKEND_URL;
+    const environment=process.env.NODE_ENV;
+    const apiUrl=environment==='development'
+        ? process.env.REACT_APP_DEV_URL
+        : process.env.REACT_APP_PROD_URL;
 
     async function loginUser(e){
         e.preventDefault();

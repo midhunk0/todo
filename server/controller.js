@@ -3,7 +3,7 @@ const { User, Todo, Trash }=require("./model");
 const bcrypt=require("bcrypt");
 const jwt=require("jsonwebtoken");
 
-const jwt_secret=process.env.JWT_SECRET;
+const jwt_secret=process.env.JWT_SECRET || "defaultSecret";
 const jwt_expires_in="1h";
 
 const registerUser=async(req, res)=>{
@@ -29,7 +29,7 @@ const registerUser=async(req, res)=>{
         await user.save();
         const token=jwt.sign({ userId: user._id, username: user.username }, jwt_secret, { expiresIn: jwt_expires_in });
         res.cookie("jwt", token, { httpOnly: true, secure: true, sameSite: "None", maxAge: 3600000 });
-        res.status(200).json({ userId: user._id, message: "User created successfully" });
+        return res.status(200).json({ message: "User created successfully" });
     }
     catch(err){
         console.log(err);
@@ -45,7 +45,7 @@ const loginUser=async(req, res)=>{
         }
         const userExist=await User.findOne({ $or: [{ email: credential.trim() }, { username: credential.trim() }] });
         if(!userExist){
-            return res.status(400).json({ message: "Invalid username or password" });
+            return res.status(400).json({ message: "Invalid credential" });
         }
         const passwordMatch=await bcrypt.compare(password, userExist.password);
         if(!passwordMatch){
@@ -53,7 +53,7 @@ const loginUser=async(req, res)=>{
         }
         const token=jwt.sign({ userId: userExist._id, username: userExist.username }, jwt_secret, { expiresIn: jwt_expires_in });
         res.cookie("jwt", token, { httpOnly: true, secure: true, sameSite: "None", maxAge: 3600000 });
-        res.status(200).json({ userId: userExist._id, message: "Login successfull" });
+        return res.status(200).json({ message: "Login successful" });
     }
     catch(err){
         console.log(err);
@@ -82,7 +82,7 @@ const deleteUser=async(req, res)=>{
         const userId=decoded.userId;
         const deleteAccount=await User.findByIdAndDelete(userId);
         if(!deleteAccount){
-            return res.status(400).json({ message: "User not found" });
+            return res.status(400).json({ message: "User deletion failed" });
         }
         res.cookie("jwt", "", { maxAge: 1 });
         res.status(200).json({ message: "User deleted successfully" });
@@ -91,14 +91,14 @@ const deleteUser=async(req, res)=>{
         console.log(err);
         return res.status(500).json({ message: "Server error" });
     }
-}
+};
 
 const addTodo=async(req, res)=>{   
     const { item }=req.body;
     try{
         const token=req.cookies.jwt;
         if(!token){
-            return res.status(400).json({ message: "User not found" });
+            return res.status(400).json({ message: "User not logged in" });
         }
         const decoded=jwt.verify(token, jwt_secret);
         const userId=decoded.userId;
