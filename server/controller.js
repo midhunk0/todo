@@ -76,7 +76,7 @@ const deleteUser=async(req, res)=>{
     try{
         const token=req.cookies.jwt;
         if(!token){
-            return res.status(400).json({ message: "User not found" });
+            return res.status(400).json({ message: "User token not found" });
         }
         const decoded=jwt.verify(token, jwt_secret);
         const userId=decoded.userId;
@@ -98,7 +98,7 @@ const addTodo=async(req, res)=>{
     try{
         const token=req.cookies.jwt;
         if(!token){
-            return res.status(400).json({ message: "User not logged in" });
+            return res.status(400).json({ message: "User token not found" });
         }
         const decoded=jwt.verify(token, jwt_secret);
         const userId=decoded.userId;
@@ -127,7 +127,7 @@ const getTodos=async(req, res)=>{
     try{
         const token=req.cookies.jwt;
         if(!token){
-            return res.status(400).json({ message: "User not found" });
+            return res.status(400).json({ message: "User token not found" });
         }
         const decoded=jwt.verify(token, jwt_secret);
         const userId=decoded.userId;
@@ -156,7 +156,7 @@ const toggleComplete=async(req, res)=>{
     try{
         const token=req.cookies.jwt;
         if(!token){
-            return res.status(400).json({ message: "User not found" });
+            return res.status(400).json({ message: "User token not found" });
         }
         const decoded=jwt.verify(token, jwt_secret);
         const userId=decoded.userId;
@@ -185,7 +185,7 @@ const editTodo=async(req, res)=>{
     try{
         const token=req.cookies.jwt;
         if(!token){
-            return res.status(400).json({ message: "User not found" });
+            return res.status(400).json({ message: "User token not found" });
         }
         const decoded=jwt.verify(token, jwt_secret);
         const userId=decoded.userId;
@@ -211,7 +211,7 @@ const deleteTodo=async(req, res)=>{
     try{
         const token=req.cookies.jwt;
         if(!token){
-            return res.status(400).json({ message: "User not found" });
+            return res.status(400).json({ message: "User token not found" });
         }
         const decoded=jwt.verify(token, jwt_secret);
         const userId=decoded.userId;
@@ -242,7 +242,7 @@ const getTrashItems=async(req, res)=>{
     try{
         const token=req.cookies.jwt;
         if(!token){
-            return res.status(400).json({ message: "User not found" });
+            return res.status(400).json({ message: "User token not found" });
         }
         const decoded=jwt.verify(token, jwt_secret);
         const userId=decoded.userId;
@@ -265,7 +265,7 @@ const deleteTrashItem=async(req, res)=>{
     try{
         const token=req.cookies.jwt;
         if(!token){
-            return res.status(400).json({ message: "User not found" });
+            return res.status(400).json({ message: "User token not found" });
         }
         const decoded=jwt.verify(token, jwt_secret);
         const userId=decoded.userId;
@@ -287,7 +287,7 @@ const recoverTodo=async(req, res)=>{
     try{
         const token=req.cookies.jwt;
         if(!token){
-            return res.status(400).json({ message: "User not found" });
+            return res.status(400).json({ message: "User token not found" });
         }
         const decoded=jwt.verify(token, jwt_secret);
         const userId=decoded.userId;

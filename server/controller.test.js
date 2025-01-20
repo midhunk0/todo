@@ -4,26 +4,35 @@ import request from "supertest";
 import express, { response } from "express";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import { addTodo, deleteUser, loginUser, logoutUser, registerUser } from "./controller";
+import { addTodo, deleteTodo, deleteTrashItem, deleteUser, editTodo, getTodos, getTrashItems, loginUser, logoutUser, recoverTodo, registerUser, toggleComplete } from "./controller";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 const app=express();
 app.use(express.json());
+app.use(cookieParser());
+
 app.post("/registerUser", registerUser);
 app.post("/loginUser", loginUser);
 app.post("/logoutUser", logoutUser);
 app.delete("/deleteUser", deleteUser);
 app.post("/addTodo", addTodo);
+app.get("/getTodos", getTodos);
+app.patch("/toggleComplete/:todoId", toggleComplete);
+app.put("/editTodo/:todoId", editTodo);
+app.delete("/deleteTodo/:todoId", deleteTodo);
+app.get("/getTrash", getTrashItems);
+app.delete("/deleteTrashItem/:trashId", deleteTrashItem);
+app.patch("/recoverTodo/:trashId", recoverTodo);
 
 let mongoServer;
 
 beforeAll(async()=>{
     mongoServer=await MongoMemoryServer.create();
     const uri=mongoServer.getUri();
-    
     await mongoose.connect(uri);
 });
 
@@ -99,7 +108,7 @@ describe("user registration", ()=>{
     //     expect(response.body.message).toBe("Server error");
     // });
 
-    it("should return registration successfull", async()=>{
+    it("should return, registration successfull", async()=>{
         const response=await request(app).post("/registerUser").send({
             username: "temp",
             email: "temp@gmail.com",
@@ -108,6 +117,7 @@ describe("user registration", ()=>{
 
         expect(response.status).toBe(200);
         expect(response.body.message).toBe("User created successfully");
+        expect(response.headers['set-cookie']).toBeDefined();
     });
 });
 
@@ -181,22 +191,209 @@ describe("user login", ()=>{
             const response=await request(app).post("/loginUser").send(testCase);
             expect(response.status).toBe(200);
             expect(response.body.message).toBe("Login successful");
+            expect(response.headers['set-cookie']).toBeDefined();
         }
     });
 });
 
 describe("logout user", ()=>{
-    it("should return logout successful", async()=>{
+    it("should return, logout successful", async()=>{
         const response=await request(app).post("/logoutUser").send();
         expect(response.status).toBe(200);
         expect(response.body.message).toBe("Logout successful");
     });
 });
 
-// describe("delete user", ()=>{
-    
+describe("delete user", ()=>{
+    it("should return, user token not found", async()=>{
+        const response=await request(app).delete("/deleteUser");
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe("User token not found");
+    }); 
+
+    it("should return, user deletion failed", async()=>{
+        const hashedPassword=await bcrypt.hash("test", 10);
+        const user=await mongoose.connection.db.collection("users").insertOne({
+            username: "test",
+            email: "test@gmail.com",
+            password: hashedPassword
+        });
+        
+        const loginRes=await request(app).post("/loginUser").send({
+            credential: "test",
+            password: "test"
+        });
+        const cookie=loginRes.headers["set-cookie"];
+        expect(cookie).toBeDefined();
+
+        await mongoose.connection.db.collection("users").deleteOne({ _id: user.insertedId });
+
+        const response=await request(app).delete("/deleteUser").set("Cookie", cookie);
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe("User deletion failed");
+    });
+
+    it("should return, user deletion successful", async()=>{
+        const hashedPassword=await bcrypt.hash("test", 10);
+        const user=await mongoose.connection.db.collection("users").insertOne({
+            username: "test",
+            email: "test@gmail.com",
+            password: hashedPassword
+        });
+        
+        const loginRes=await request(app).post("/loginUser").send({
+            credential: "test",
+            password: "test"
+        });
+        const cookie=loginRes.headers["set-cookie"];
+        expect(cookie).toBeDefined();
+
+        const response=await request(app).delete("/deleteUser").set("Cookie", cookie);
+        expect(response.status).toBe(200);
+        expect(response.body.message).toBe("User deleted successfully");
+    });    
+});
+
+describe("add todo", ()=>{
+    it("should return, user token not found", async()=>{
+        const response=await request(app).post("/addTodo");
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe("User token not found");
+    }); 
+
+    it("should return, user not found", async()=>{
+        const hashedPassword=await bcrypt.hash("test", 10);
+        const user=await mongoose.connection.db.collection("users").insertOne({
+            username: "test",
+            email: "test@gmail.com",
+            password: hashedPassword
+        });
+
+        const loginRes=await request(app).post("/loginUser").send({
+            credential: "test",
+            password: "test"
+        });
+        const cookie=loginRes.headers["set-cookie"];
+        expect(cookie).toBeDefined();
+
+        await mongoose.connection.db.collection("users").deleteOne({ _id: user.insertedId });
+        
+        const response=await request(app).post("/addTodo").set("Cookie", cookie);
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe("User not found");
+    });
+
+    it("should return, item cannot be empty", async()=>{
+        const hashedPassword=await bcrypt.hash("test", 10);
+        await mongoose.connection.db.collection("users").insertOne({
+            username: "test",
+            email: "test@gmail.com",
+            password: hashedPassword
+        });
+
+        const loginRes=await request(app).post("/loginUser").send({
+            credential: "test",
+            password: "test"
+        });
+        const cookie=loginRes.headers["set-cookie"];
+        expect(cookie).toBeDefined();
+
+        const response=await request(app).post("/addTodo").set("Cookie", cookie).send({ item: "" });
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe("Item cannot be empty");
+    });
+
+    it("should return, item added to todos", async()=>{
+        const hashedPassword=await bcrypt.hash("test", 10);
+        await mongoose.connection.db.collection("users").insertOne({
+            username: "test",
+            email: "test@gmail.com",
+            password: hashedPassword
+        });
+
+        const loginRes=await request(app).post("/loginUser").send({
+            credential: "test",
+            password: "test"
+        });
+        const cookie=loginRes.headers["set-cookie"];
+        expect(cookie).toBeDefined();
+
+        const response=await request(app).post("/addTodo").set("Cookie", cookie).send({ item: "item" });
+        expect(response.status).toBe(200);
+        expect(response.body.message).toBe("Item added to todos");
+    });
+});
+
+describe("get todos", ()=>{
+    it("should return, user token not found", async()=>{
+        const response=await request(app).get("/getTodos");
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe("User token not found");
+    });
+
+    it("should return, user not found", async()=>{
+        const hashedPassword=await bcrypt.hash("test", 10);
+        const user=await mongoose.connection.db.collection("users").insertOne({
+            username: "test",
+            email: "test@gmail.com",
+            password: hashedPassword
+        });
+
+        const loginRes=await request(app).post("/loginUser").send({
+            credential: "test",
+            password: "test"
+        });
+        const cookie=loginRes.headers["set-cookie"];
+        expect(cookie).toBeDefined();
+
+        await mongoose.connection.db.collection("users").deleteOne({ _id: user.insertedId });
+
+        const response=await request(app).get("/getTodos").set("Cookie", cookie);
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe("User not found");
+    });
+
+    it("should return, todos fetched successfully", async()=>{
+        const hashedPassword=await bcrypt.hash("test", 10);
+        const user=await mongoose.connection.db.collection("users").insertOne({
+            username: "test",
+            email: "test@gmail.com",
+            password: hashedPassword
+        });
+
+        const loginRes=await request(app).post("/loginUser").send({
+            credential: "test",
+            password: "test"
+        });
+        const cookie=loginRes.headers["set-cookie"];
+        expect(cookie).toBeDefined();
+
+        const response=await request(app).get("/getTodos").set("Cookie", cookie);
+        expect(response.status).toBe(200);
+        expect(response.body.message).toBe("Todos fetched successfully");
+    });
+});
+
+// describe("toggle todo complete", ()=>{
+
 // });
 
-// describe("add todo", ()=>{
+// describe("edit todos", ()=>{
+
+// });
+
+// describe("delete todos", ()=>{
+
+// });
+
+// describe("fetch trash", ()=>{
+
+// });
+
+// describe("delete trash items", ()=>{
+
+// });
+
+// describe("recover todo from trash", ()=>{
 
 // });
