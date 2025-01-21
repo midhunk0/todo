@@ -374,21 +374,302 @@ describe("get todos", ()=>{
     });
 });
 
-// describe("toggle todo complete", ()=>{
+describe("toggle todo complete", ()=>{
+    it("should return, user token not found", async()=>{
+        // const hashedPassword=await bcrypt.hash("test", 10);
+        // await mongoose.connection.db.collection("users").insertOne({
+        //     username: "test",
+        //     email: "test@gmail.com",
+        //     password: hashedPassword
+        // });
 
-// });
+        const registerRes=await request(app).post("/registerUser").send({
+            username: "test",
+            email: "test@gmail.com",
+            password: "test"
+        });
+        expect(registerRes.status).toBe(200);
+        expect(registerRes.body.message).toBe("User created successfully");
 
-// describe("edit todos", ()=>{
+        const loginRes=await request(app).post("/loginUser").send({
+            credential: "test",
+            password: "test"
+        });
+        const cookie=loginRes.headers["set-cookie"];
+        expect(cookie).toBeDefined();
 
-// });
+        const todoRes=await request(app).post("/addTodo").set("Cookie", cookie).send({
+            item: "test todo"
+        });
+        expect(todoRes.status).toBe(200);
+        const todoId=todoRes.body.item._id;
+        expect(todoId).toBeDefined();
+
+        const toggleRes=await request(app).patch(`/toggleComplete/${todoId}`);
+        expect(toggleRes.status).toBe(400);
+        expect(toggleRes.body.message).toBe("User token not found");
+    });
+
+    it("should return, user not found", async()=>{
+        const hashedPassword=await bcrypt.hash("test", 10);
+        const user=await mongoose.connection.db.collection("users").insertOne({
+            username: "test",
+            email: "test@gmail.com",
+            password: hashedPassword
+        });
+
+        const loginRes=await request(app).post("/loginUser").send({
+            credential: "test",
+            password: "test"
+        });
+        const cookie=loginRes.headers["set-cookie"];
+        expect(cookie).toBeDefined();
+
+        const todoRes=await request(app).post("/addTodo").set("Cookie", cookie).send({
+            item: "test todo"
+        });
+        expect(todoRes.status).toBe(200);
+        const todoId=todoRes.body.item._id;
+        expect(todoId).toBeDefined();
+
+        await mongoose.connection.db.collection("users").deleteOne({ _id: user.insertedId });
+
+        const toggleRes=await request(app).patch(`/toggleComplete/${todoId}`).set("Cookie", cookie);
+        expect(toggleRes.status).toBe(400);
+        expect(toggleRes.body.message).toBe("User not found");
+    });
+
+    it("should return, todo not found", async()=>{
+        const hashedPassword=await bcrypt.hash("test", 10);
+        await mongoose.connection.db.collection("users").insertOne({
+            username: "test",
+            email: "test@gmail.com",
+            password: hashedPassword
+        });
+
+        const loginRes=await request(app).post("/loginUser").send({
+            credential: "test",
+            password: "test"
+        });
+        const cookie=loginRes.headers["set-cookie"];
+        expect(cookie).toBeDefined();
+
+        // const todoRes=await request(app).post("/addTodo").set("Cookie", cookie).send({
+        //     item: "test todo"
+        // });
+        // expect(todoRes.status).toBe(200);
+        // const todoId=todoRes.body.item._id;
+        // expect(todoId).toBeDefined();
+        const todoId="64a7fabe6c82f8bd12345678";
+
+        const toggleRes=await request(app).patch(`/toggleComplete/${todoId}`).set("Cookie", cookie);
+        expect(toggleRes.status).toBe(400);
+        expect(toggleRes.body.message).toBe("Todo not found");
+    });
+
+    it("should return, todo toggled", async()=>{
+        const hashedPassword=await bcrypt.hash("test", 10);
+        await mongoose.connection.db.collection("users").insertOne({
+            username: "test",
+            email: "test@gmail.com",
+            password: hashedPassword
+        });
+
+        const loginRes=await request(app).post("/loginUser").send({
+            credential: "test",
+            password: "test"
+        });
+        const cookie=loginRes.headers["set-cookie"];
+        expect(cookie).toBeDefined();
+
+        const todoRes=await request(app).post("/addTodo").set("Cookie", cookie).send({
+            item: "test todo"
+        });
+        expect(todoRes.status).toBe(200);
+        const todoId=todoRes.body.item._id;
+        expect(todoId).toBeDefined();
+        // const todoId="64a7fabe6c82f8bd12345678";
+
+        const toggleRes=await request(app).patch(`/toggleComplete/${todoId}`).set("Cookie", cookie);
+        expect(toggleRes.status).toBe(200);
+        expect(toggleRes.body.message).toBe("Todo checked" || "Todo unchecked");
+    });
+});
+
+describe("edit todos", ()=>{
+    it("should return, user token not found", async()=>{
+        const hashedPassword=await bcrypt.hash("test", 10);
+        await mongoose.connection.db.collection("users").insertOne({
+            username: "test",
+            email: "test@gmail.com",
+            password: hashedPassword
+        });
+
+        const loginRes=await request(app).post("/loginUser").send({
+            credential: "test",
+            password: "test"
+        });
+        const cookie=loginRes.headers["set-cookie"];
+        expect(cookie).toBeDefined();
+
+        const todoRes=await request(app).post("/addTodo").set("Cookie", cookie).send({
+            item: "test todo"
+        });
+        expect(todoRes.status).toBe(200);
+        const todoId=todoRes.body.item._id;
+        expect(todoId).toBeDefined();
+
+        const editRes=await request(app).put(`/editTodo/${todoId}`).send({
+            item: "new test todo"
+        });
+        expect(editRes.status).toBe(400);
+        expect(editRes.body.message).toBe("User token not found");
+    });  
+    
+    it("should return, user not found", async()=>{
+        const hashedPassword=await bcrypt.hash("test", 10);
+        const user=await mongoose.connection.db.collection("users").insertOne({
+            username: "test",
+            email: "test@gmail.com",
+            password: hashedPassword
+        });
+
+        const loginRes=await request(app).post("/loginUser").send({
+            credential: "test",
+            password: "test"
+        });
+        const cookie=loginRes.headers["set-cookie"];
+        expect(cookie).toBeDefined();
+
+        const todoRes=await request(app).post("/addTodo").set("Cookie", cookie).send({
+            item: "test todo"
+        });
+        expect(todoRes.status).toBe(200);
+        const todoId=todoRes.body.item._id;
+        expect(todoId).toBeDefined();
+
+        await mongoose.connection.db.collection("users").deleteOne({ _id: user.insertedId });
+
+        const editRes=await request(app).put(`/editTodo/${todoId}`).set("Cookie", cookie).send({
+            item: "new test todo"
+        });
+        expect(editRes.status).toBe(400);
+        expect(editRes.body.message).toBe("User not found");
+    });  
+
+    it("should return, todo not found", async()=>{
+        const hashedPassword=await bcrypt.hash("test", 10);
+        await mongoose.connection.db.collection("users").insertOne({
+            username: "test",
+            email: "test@gmail.com",
+            password: hashedPassword
+        });
+
+        const loginRes=await request(app).post("/loginUser").send({
+            credential: "test",
+            password: "test"
+        });
+        const cookie=loginRes.headers["set-cookie"];
+        expect(cookie).toBeDefined();
+
+        // const todoRes=await request(app).post("/addTodo").set("Cookie", cookie).send({
+        //     item: "test todo"
+        // });
+        // expect(todoRes.status).toBe(200);
+        // const todoId=todoRes.body.item._id;
+        // expect(todoId).toBeDefined();
+        const todoId="64a7fabe6c82f8bd12345678";
+
+        const editRes=await request(app).put(`/editTodo/${todoId}`).set("Cookie", cookie).send({
+            item: "new test todo"
+        });
+        expect(editRes.status).toBe(400);
+        expect(editRes.body.message).toBe("Todo not found");
+    });  
+
+    it("should return, todo item updated successfully", async()=>{
+        const hashedPassword=await bcrypt.hash("test", 10);
+        await mongoose.connection.db.collection("users").insertOne({
+            username: "test",
+            email: "test@gmail.com",
+            password: hashedPassword
+        });
+
+        const loginRes=await request(app).post("/loginUser").send({
+            credential: "test",
+            password: "test"
+        });
+        const cookie=loginRes.headers["set-cookie"];
+        expect(cookie).toBeDefined();
+
+        const todoRes=await request(app).post("/addTodo").set("Cookie", cookie).send({
+            item: "test todo"
+        });
+        expect(todoRes.status).toBe(200);
+        const todoId=todoRes.body.item._id;
+        expect(todoId).toBeDefined();
+
+        const editRes=await request(app).put(`/editTodo/${todoId}`).set("Cookie", cookie).send({
+            item: "new test todo"
+        });
+        expect(editRes.status).toBe(200);
+        expect(editRes.body.message).toBe("Todo item updated successfully");
+    });  
+});
 
 // describe("delete todos", ()=>{
 
 // });
 
-// describe("fetch trash", ()=>{
+describe("fetch trash", ()=>{
+    it("should return, user token not found", async()=>{
+        const response=await request(app).get("/getTrash");
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe("User token not found");
+    });
 
-// });
+    it("should return, user not found", async()=>{
+        const hashedPassword=await bcrypt.hash("test", 10);
+        const user=await mongoose.connection.db.collection("users").insertOne({
+            username: "test",
+            email: "test@gmail.com",
+            password: hashedPassword
+        });
+
+        const loginRes=await request(app).post("/loginUser").send({
+            credential: "test",
+            password: "test"
+        });
+        const cookie=loginRes.headers["set-cookie"];
+        expect(cookie).toBeDefined();
+
+        await mongoose.connection.db.collection("users").deleteOne({ _id: user.insertedId });
+
+        const response=await request(app).get("/getTrash").set("Cookie", cookie);
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe("User not found");
+    });
+
+    it("should return, trash fetched successfully", async()=>{
+        const hashedPassword=await bcrypt.hash("test", 10);
+        await mongoose.connection.db.collection("users").insertOne({
+            username: "test",
+            email: "test@gmail.com",
+            password: hashedPassword
+        });
+
+        const loginRes=await request(app).post("/loginUser").send({
+            credential: "test",
+            password: "test"
+        });
+        const cookie=loginRes.headers["set-cookie"];
+        expect(cookie).toBeDefined();
+
+        const response=await request(app).get("/getTrash").set("Cookie", cookie);
+        expect(response.status).toBe(200);
+        expect(response.body.message).toBe("Trash items fetched successfully");
+    })
+});
 
 // describe("delete trash items", ()=>{
 

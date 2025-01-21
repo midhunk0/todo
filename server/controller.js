@@ -115,7 +115,7 @@ const addTodo=async(req, res)=>{
             item
         });
         await todo.save();
-        res.status(200).json({ item: todo.item, message: "Item added to todos" });
+        res.status(200).json({ item: todo, message: "Item added to todos" });
     }
     catch(err){
         console.log(err);
