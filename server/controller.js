@@ -230,7 +230,7 @@ const deleteTodo=async(req, res)=>{
             completed: todo.completed
         });
         await trashTodo.save();
-        return res.status(200).json({ message: "Todo deleted successfully" });
+        return res.status(200).json({ item: trashTodo, message: "Todo deleted successfully" });
     }
     catch(err){
         console.log(err);
@@ -274,6 +274,9 @@ const deleteTrashItem=async(req, res)=>{
             return res.status(400).json({ message: "User not found" });
         }
         const deleteItem=await Trash.findByIdAndDelete(trashId);
+        if(!deleteItem){
+            return res.status(400).json({ message: "Todo not found in trash" });
+        }
         return res.status(200).json({ message: "Todo deleted from the trash" });
     }
     catch(err){
@@ -297,7 +300,7 @@ const recoverTodo=async(req, res)=>{
         }
         const recoverTodo=await Trash.findByIdAndDelete(trashId);
         if(!recoverTodo){
-            return res.status(400).json({ message: "Todo not found" });
+            return res.status(400).json({ message: "Todo not found in trash" });
         }
         const todo=new Todo({
             userId,
