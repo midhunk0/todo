@@ -43,7 +43,7 @@ const loginUser=async(req, res)=>{
         if(!credential || !password){
             return res.status(400).json({ message: "All fields are required" });
         }
-        const userExist=await User.findOne({ $or: [{ email: credential.trim() }, { username: credential.trim() }] });
+        const userExist=await User.findOne({ $or: [{ email: credential.trim() }, { username: credential.trim() }]});
         if(!userExist){
             return res.status(400).json({ message: "Invalid credential" });
         }
