@@ -48,14 +48,6 @@ This is a MERN stack-based Todo application that includes user authentication, t
     ```
 3. Open your browser and navigate to `http://localhost:3000`.
 
-## Project Structure
-
-- `client/src/components/auth`: Contains authentication components (`Login` and `Register`).
-- `client/src/components/pages`: Contains page components (`Todo` and `Trash`).
-- `client/src/App.js`: Main application component with routing and notification configuration.
-- `client/src/App.css`: Global styles for the application.
-- `server`: Contains the backend code with Express and MongoDB setup.
-
 ## Dependencies
 
 - React
