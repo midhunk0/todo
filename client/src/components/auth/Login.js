@@ -50,8 +50,8 @@ export function Login(){
                 <video src="background.mp4" autoPlay muted loop></video>
             </div>
             <div className="formDiv">
-                <h2>Login to your account</h2>
                 <form className="form" onSubmit={loginUser}>
+                    <h2>Login to your account</h2>
                     <div className="formItem">
                         <label>Username/Email</label>
                         <input type="text" placeholder="Enter your username or email" required onChange={(e)=>setUserData({...userData, credential: e.target.value})}/>

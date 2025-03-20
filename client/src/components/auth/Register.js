@@ -51,8 +51,8 @@ export function Register(){
                 <video src="background.mp4" autoPlay muted loop></video>
             </div>
             <div className="formDiv">
-                <h2>Create a new account</h2>
                 <form className="form" onSubmit={registerUser}>
+                    <h2>Create a new account</h2>
                     <div className="formItem">
                         <label>Username</label>
                         <input type="text" placeholder="Enter your username" required onChange={(e)=>setUserData({...userData, username: e.target.value})}/>
