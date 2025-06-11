@@ -47,7 +47,10 @@ export function Register(){
     return(
         <div className="formPage">
             <div className="videoDiv">
-                <h1>Todo./</h1>
+                <div className="logo">
+                    <img src="/todo.png" alt="logo"/>
+                    <h1>Todo./</h1>
+                </div>
                 <video src="background.mp4" autoPlay muted loop></video>
             </div>
             <div className="formDiv">

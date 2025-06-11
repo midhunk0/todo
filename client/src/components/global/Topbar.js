@@ -1,25 +1,27 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 // @ts-nocheck
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export function Topbar(){
-    const [show, setShow]=useState(true);
+    const [show, setShow]=useState(false);
     const navigate=useNavigate();
+    const location=useLocation();
     const environment=process.env.NODE_ENV;
     const apiUrl=environment==='development'
         ? process.env.REACT_APP_DEV_URL
         : process.env.REACT_APP_PROD_URL;
+    const tab=location.pathname;
 
-    function toggleShow(){
-        setShow(!show);
+    function togglePage(){
+        if(tab==="/trash"){
+            navigate("/todo");
+        }
+        else{
+            navigate("/trash");
+        }
     }
-
-    function showTrash(){
-        navigate("/trash")
-    }
-
+    
     async function logoutUser(){
         try{
             const response=await fetch(`${apiUrl}/logoutUser`, {
@@ -69,18 +71,26 @@ export function Topbar(){
                 <h2><a href="/todo">Todo./</a></h2>
             </div>
             <div className="moreOptions">
-                <button onClick={toggleShow}>
-                    <img src={show ? "more.png" : "close.png"} alt={show ? "more" : "close"}/>
-                </button>
-                {show ? (
-                    <></>
-                ) : (
-                    <div className="options">
-                        <a onClick={showTrash}>View Trash</a>
-                        <a onClick={logoutUser}>Logout</a>
-                        <a onClick={deleteUser}>Delete Account</a>
+                <button onClick={()=>setShow(prev=>!prev)}>
+                    <img src={show ? "close.png" : "more.png"} alt={show ? "more" : "close"}/>
+                </button>                
+                <div className={`options ${show ? "show" : ""}`}>
+                    <div className="option" onClick={togglePage}>
+                        <img 
+                            src={tab==="/trash" ? "/checked.png" : "/delete.png"} 
+                            alt={tab==="/trash" ? "todo" : "delete"}
+                        />
+                        <p>View {tab==="/trash" ? "Todo" : "Trash"}</p>
                     </div>
-                )}
+                    <div className="option" onClick={logoutUser}>
+                        <img src="/logout.png" alt="logout"/>
+                        <p>Logout</p>
+                    </div>
+                    <div className="option" onClick={deleteUser}>
+                        <img src="/delete-forever.png" alt="delete"/>
+                        <p>Delete Account</p>
+                    </div>
+                </div>
             </div>
         </div>
     )

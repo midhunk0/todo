@@ -22,7 +22,7 @@ function App(){
             <ToastContainer 
 				toastStyle={{
                     background: "#00D7FF",
-                    borderRadius: "25px",
+                    borderRadius: "15px",
                 }}
                 position="bottom-right" 
                 autoClose={2000} 
