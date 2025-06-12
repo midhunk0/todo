@@ -76,10 +76,7 @@ export function Topbar(){
                 </button>                
                 <div className={`options ${show ? "show" : ""}`}>
                     <div className="option" onClick={togglePage}>
-                        <img 
-                            src={tab==="/trash" ? "/checked.png" : "/delete.png"} 
-                            alt={tab==="/trash" ? "todo" : "delete"}
-                        />
+                        <img src={tab==="/trash" ? "/checked.png" : "/delete.png"} alt={tab==="/trash" ? "todo" : "delete"}/>
                         <p>View {tab==="/trash" ? "Todo" : "Trash"}</p>
                     </div>
                     <div className="option" onClick={logoutUser}>

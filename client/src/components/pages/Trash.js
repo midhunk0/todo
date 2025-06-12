@@ -1,6 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 // @ts-nocheck
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Topbar } from "../global/Topbar";
 import { toast } from "react-toastify";
 
@@ -29,7 +28,7 @@ export function Trash(){
 
     useEffect(()=>{
         fetchTrash();
-    }, []);
+    });
 
     async function restoreTodo(trashId){
         try{

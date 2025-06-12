@@ -1,6 +1,6 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 // @ts-nocheck
-import React, { useEffect, useState } from "react";
+
+import { useEffect, useState } from "react";
 import { Topbar } from "../global/Topbar";
 import { toast } from "react-toastify";
 
@@ -44,7 +44,6 @@ export function Todo(){
             const result=await response.json();
             if(response.ok){
                 setTodos(result.todos);
-                // toast.success(result.message);
             }
             else{
                 toast.error(result.message);
@@ -57,7 +56,7 @@ export function Todo(){
 
     useEffect(()=>{
         fetchTodos();
-    }, []);
+    });
 
     async function toggleComplete(todoId){
         try{
@@ -134,7 +133,7 @@ export function Todo(){
                         <img src="add.png" alt=""/>
                     </button>
                 </form>
-                {todos.map((todo, index)=>(
+                {todos && todos.map((todo, index)=>(
                     <div key={index} className="todoItem">
                         <div className="todoItemContent">
                             {edited===todo._id ? (
@@ -146,7 +145,7 @@ export function Todo(){
                                     <button onClick={()=>toggleComplete(todo._id)}>
                                         <img src={todo.completed ? "checked.png" : "nonchecked.png"} alt={todo.completed ? "completed" : "incompleted"}/>
                                     </button>
-                                    <p htmlFor={todo.item} onClick={()=>toggleComplete(todo._id)}>{todo.item}</p>
+                                    <p onClick={()=>toggleComplete(todo._id)}>{todo.item}</p>
                                 </div>
                             )}
                         </div>
